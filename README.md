@@ -1,8 +1,8 @@
 # LP Harmony Scripts
 
-Personal Toon Boom Harmony tools in JavaScript and Python.
+Personal tools for Toon Boom Harmony: JavaScript and Python scripts, toolbars, menus, and future compiled plugins.
 
-The Python tools are distributed as compiled runtimes, so artists do not need to install Python or additional libraries. Each tool includes its own installer, which copies only the Harmony launcher files into the Toon Boom user settings and keeps the compiled runtime separate.
+The repository includes tools I choose to share publicly. Some tools are lightweight scripts; others will be distributed as compiled Harmony plugins so artists do not need to install Python or additional libraries. Every tool includes its own installation instructions and required files.
 
 ## Documentation
 
@@ -11,14 +11,15 @@ The visual documentation lives in [`docs/`](docs/). It explains installation, to
 ## Repository structure
 
 ```text
-scripts/     Public JavaScript launchers and scripts
+scripts/     Public JavaScript and Python scripts
+plugins/     Compiled Harmony plugins and their installers
 resources/   Public icons, example files, and media
 docs/        Documentation website
 ```
 
 ## Installation
 
-Always use the installer supplied with each tool, toolbar, or menu.
+Always use the installer or installation instructions supplied with each tool, toolbar, menu, or plugin.
 
 ## License
 
