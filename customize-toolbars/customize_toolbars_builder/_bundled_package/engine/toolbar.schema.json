@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lp.pipeline/specs/customize-toolbars-toolbar.schema.json",
+  "title": "Customize_Toolbars toolbar config",
+  "description": "One toolbars/<id>.json file = one Harmony toolbar + its Windows-menu group + assignable shortcuts.",
+  "type": "object",
+  "required": ["id", "title"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Stable slug for this toolbar; lower-cased and non-alphanumerics collapsed to '_' when ids are minted.",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9 _.-]*$"
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "abbr": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 3,
+      "pattern": "^[A-Za-z0-9]{1,3}$",
+      "description": "1–3 letters shown on the leading title button (the toolbar's badge). Default: first 3 chars of `id`."
+    },
+    "iconFallback": {
+      "type": "string",
+      "enum": ["monogram", "none"],
+      "default": "monogram",
+      "description": "monogram = generate a letter badge for buttons with no icon; none = leave them to Harmony's placeholder."
+    },
+    "menu": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Opt-in: parent menu for a toggle + item group, e.g. \"Windows\". Omit / null = toolbar only (the default)."
+    },
+    "shortcutCategory": {
+      "type": "string",
+      "description": "Category shown in Preferences ▸ Shortcuts. Defaults to `title`."
+    },
+    "customizable": { "type": "boolean", "default": true },
+    "titleButton": {
+      "description": "Leading icon button that names the toolbar (EL_code titleAction style). true = default info button; false = off.",
+      "oneOf": [
+        { "type": "boolean" },
+        { "$ref": "#/$defs/titleButton" }
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    }
+  },
+  "$defs": {
+    "titleButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "icon": { "type": "string", "description": "File in icons/. Default <id>.svg." },
+        "tooltip": { "type": "string" },
+        "onClick": {
+          "type": "string",
+          "enum": ["info", "menu", "none"],
+          "default": "info",
+          "description": "info = MessageBox listing the toolbar's items; menu = same listing (Harmony has no reliable pop-menu call); none = inert."
+        }
+      }
+    },
+    "item": {
+      "anyOf": [
+        { "type": "string", "minLength": 1, "description": "script basename" },
+        { "$ref": "#/$defs/scriptItem" },
+        { "$ref": "#/$defs/submenuItem" }
+      ]
+    },
+    "scriptItem": {
+      "type": "object",
+      "required": ["script"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "script" },
+        "script": { "type": "string", "minLength": 1, "description": "basename of the .js in scripts/" },
+        "entry": { "type": "string", "description": "function to launch; default = script basename" },
+        "label": { "type": "string", "description": "button/menu text; default = script basename" },
+        "icon": { "type": "string", "description": "file in icons/; default <script>.png" },
+        "shortcut": {
+          "type": "string",
+          "description": "Suggested key, surfaced in the shortcut description. Harmony assigns the actual key in Preferences."
+        },
+        "toolbar": { "type": "boolean", "default": true },
+        "menu": { "type": "boolean", "default": true },
+        "checkable": { "type": "boolean", "default": false },
+        "companions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Extra file globs bundled into scripts/ by customize_toolbars_builder (ignored by the engine at runtime)."
+        }
+      }
+    },
+    "submenuItem": {
+      "type": "object",
+      "required": ["type", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "submenu" },
+        "label": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              { "type": "string", "minLength": 1 },
+              { "$ref": "#/$defs/scriptItem" }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

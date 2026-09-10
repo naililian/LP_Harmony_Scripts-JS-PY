@@ -1,0 +1,8 @@
+{
+  "name": "Customize_Toolbars",
+  "packageShortName": "Customize_Toolbars",
+  "version": "0.1.0",
+  "description": "Declarative Harmony toolbars: config-driven buttons, shortcuts and menus. Built and edited by tools/customize_toolbars_builder.",
+  "author": "Lilian Penzo",
+  "isProtected": false
+}
