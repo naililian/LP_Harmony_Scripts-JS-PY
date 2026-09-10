@@ -1,0 +1,12 @@
+# customize_toolbars_builder — Python 3.9 (matches Harmony). From the repo root:
+#   .venv39\Scripts\python.exe -m pip install -r tools/customize_toolbars_builder/requirements.txt
+
+# Runtime: the builder runs the real engine planner (engine/plan.js) to preview
+# registrations and name generated badge icons.
+dukpy>=0.5
+
+# Config validation against engine/toolbar.schema.json.
+jsonschema>=4
+
+# Desktop UI (Phase 3). Not needed for the CLI or the tests.
+PySide6>=6.5 ; python_version >= "3.9"

@@ -1,0 +1,28 @@
+{
+  "$schema": "../engine/toolbar.schema.json",
+  "id": "rig",
+  "abbr": "RIG",
+  "title": "LP · Rig",
+  "shortcutCategory": "LP Rig",
+  "titleButton": {
+    "onClick": "info"
+  },
+  "items": [
+    {
+      "type": "script",
+      "script": "LP_use_drawing_pivot",
+      "label": "Use Drawing Pivot"
+    },
+    {
+      "type": "script",
+      "script": "LP_set_pivot_by_drawing",
+      "label": "Set Pivot by Drawing"
+    },
+    {
+      "type": "script",
+      "script": "LP_cloneDrawing",
+      "label": "Clone Drawing",
+      "shortcut": "Alt+Shift+C"
+    }
+  ]
+}

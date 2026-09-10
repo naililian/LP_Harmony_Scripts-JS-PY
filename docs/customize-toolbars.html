@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Customize Toolbars — build Toon Boom Harmony toolbars from your scripts without writing configure.js.">
+  <title>Customize Toolbars — LP Harmony Scripts</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <span class="badge">Toon Boom Harmony tool</span>
+      <h1>Customize Toolbars</h1>
+      <p class="lead">Turn your Harmony scripts into toolbars — buttons, shortcuts and an optional menu — without hand-writing a <code>configure.js</code>. Arrange the toolbar in a small desktop app; it produces a drop-in Harmony package.</p>
+    </div>
+  </header>
+  <nav>
+    <div class="wrap">
+      <a href="index.html">← Documentation</a>
+      <a href="#how">How to use it</a>
+      <a href="#install">Installation</a>
+      <a href="#limits">Limitations</a>
+      <a href="https://github.com/naililian/LP_Harmony_Scripts-JS-PY/tree/main/customize-toolbars">Source &amp; download</a>
+    </div>
+  </nav>
+  <main class="wrap">
+
+    <section id="overview">
+      <h2>What it does</h2>
+      <p>Harmony can show a script as a toolbar button, but wiring one up means a package, a <code>configure.js</code>, an action, a shortcut and a menu item — repeated per button. Customize Toolbars does that for you: you pick scripts, drag them into a toolbar, set a label / icon / suggested shortcut, and it writes a self-contained package.</p>
+      <p><img src="assets/customize-toolbars.png" alt="The Customize Toolbars window: a script list on the left, the toolbar being assembled in the centre, and a live preview of what Harmony will register on the right."></p>
+      <div class="grid">
+        <article class="card"><h3>One package</h3><p>All your toolbars live in a single <code>Customize_Toolbars</code> folder. Buttons, assignable shortcuts, and an optional Windows-menu group.</p></article>
+        <article class="card"><h3>Self-contained</h3><p>The package bundles copies of the scripts and icons it uses, so it works on a machine that only has the roaming folder.</p></article>
+        <article class="card"><h3>Live preview</h3><p>The right panel runs the real engine and shows exactly what will be registered, plus warnings for missing scripts or portability issues.</p></article>
+        <article class="card"><h3>Round-trip</h3><p>Re-open an installed package, change it, and save straight back over it. Or uninstall it from one click.</p></article>
+      </div>
+    </section>
+
+    <section id="compat">
+      <h2>Compatibility</h2>
+      <div class="grid">
+        <article class="card"><h3>Toon Boom Harmony</h3><p>21 and later (tested on 24, 25, 27). Premium / Advanced.</p></article>
+        <article class="card"><h3>Operating system</h3><p>Windows. The builder is a Python app; nothing extra is installed inside Harmony.</p></article>
+        <article class="card"><h3>Builder runtime</h3><p>Python 3.9+ (the version Harmony ships). <code>run.bat</code> sets up a local environment on first launch.</p></article>
+      </div>
+    </section>
+
+    <section id="install">
+      <h2>Installation</h2>
+      <ol class="steps">
+        <li>Download the <a href="https://github.com/naililian/LP_Harmony_Scripts-JS-PY/tree/main/customize-toolbars"><code>customize-toolbars/</code></a> folder from the repository.</li>
+        <li>Double-click <code>run.bat</code>. The first run creates a local <code>.venv</code> and installs three packages (dukpy, jsonschema, PySide6).</li>
+        <li>The window opens. A console stays behind it for messages — close it by closing the window.</li>
+      </ol>
+      <div class="note">The scripts a toolbar launches don't need to be installed separately — the builder copies them into the package.</div>
+    </section>
+
+    <section id="how">
+      <h2>How to use it</h2>
+      <ol class="steps">
+        <li><strong>New</strong> toolbar → give it a <em>Title</em> and a 1–3 letter <em>Abbr</em> (shown as the leading badge button).</li>
+        <li>Point the left panel at your Harmony script folder, select one or more scripts, click <strong>Add to toolbar ▶</strong>. Reorder with ▲ ▼.</li>
+        <li>For each button, on the right: set the <em>Label</em>, an <em>Icon</em> (blank = the script's own icon, or a generated letter badge), and a suggested <em>Shortcut</em>. For a multi-file tool, list its extra files under <em>Companions</em> (e.g. <code>my_tool_*.py</code>).</li>
+        <li>Repeat for more toolbars. <strong>File ▸ Save project</strong> keeps a <code>.lptb.json</code> you can reopen.</li>
+        <li>Bottom-right <strong>Build &amp; install…</strong> → tick every Harmony version you want → it copies the package into each.</li>
+        <li><strong>Restart Harmony.</strong> Right-click a toolbar area and enable your toolbar.</li>
+      </ol>
+      <p>The <a href="https://github.com/naililian/LP_Harmony_Scripts-JS-PY/blob/main/customize-toolbars/docs/user-guide.md">full user guide</a> covers every field, the CLI, and editing an installed package.</p>
+    </section>
+
+    <section id="result">
+      <h2>What ends up in Harmony</h2>
+      <p>One folder in <code>%APPDATA%\Toon&nbsp;Boom&nbsp;Animation\&lt;edition&gt;\&lt;NNNN&gt;-scripts\packages\</code>:</p>
+      <pre><code>Customize_Toolbars/
+  configure.js       what Harmony runs at startup
+  engine/            the small runtime (don't edit)
+  toolbars/*.json    one file per toolbar
+  scripts/           copies of the launched .js (+ companions)
+  icons/             script icons and generated badges</code></pre>
+      <p>In the interface: a letter-badge button for the toolbar, then one button per script with its icon and tooltip; an assignable entry per script under <em>Preferences ▸ Keyboard Shortcuts</em>; and, if you opted in, a matching menu group. Nothing else in the scene or preferences changes.</p>
+    </section>
+
+    <section id="limits">
+      <h2>Limitations &amp; troubleshooting</h2>
+      <div class="grid">
+        <article class="card"><h3>Startup only</h3><p>Toolbars are built when Harmony launches. After Build &amp; install, restart Harmony.</p></article>
+        <article class="card"><h3>Shortcut keys</h3><p>Harmony doesn't let a script set a key combo. The tool registers an assignable entry; you pick the key in Preferences. The <em>Shortcut</em> field is a note shown in its description.</p></article>
+        <article class="card"><h3>No toolbar separators</h3><p>Harmony's toolbar API has none. Use a submenu (menu only) to group.</p></article>
+        <article class="card"><h3>"env-only" scripts</h3><p>Scripts that find their <code>.py</code> through the <code>TOONBOOM_GLOBAL_SCRIPT_LOCATION</code> variable are flagged. They work while that variable is set on the machine.</p></article>
+        <article class="card"><h3>Toolbar not showing</h3><p>Right-click the toolbar area to enable it, or check <em>Windows ▸ toolbars</em>. The Message Log shows a <code>[Customize_Toolbars]</code> line per toolbar loaded.</p></article>
+        <article class="card"><h3>Wrong Harmony version</h3><p>Run <code>run.bat locations</code> to see which <code>packages/</code> folders are detected and writable.</p></article>
+      </div>
+    </section>
+
+    <section id="changelog">
+      <h2>Changelog</h2>
+      <table>
+        <thead><tr><th>Version</th><th>Date</th><th>Changes</th></tr></thead>
+        <tbody>
+          <tr><td>1.0.0</td><td>2026-09</td><td>First public release: engine, PySide6 builder, multi-version install, editing an installed package.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+  <footer><div class="wrap">LP Harmony Scripts · Personal tools for Toon Boom Harmony · <a href="index.html">Documentation home</a></div></footer>
+</body>
+</html>
