@@ -1,12 +1,14 @@
-# customize_toolbars_builder — Python 3.9 (matches Harmony). From the repo root:
-#   .venv39\Scripts\python.exe -m pip install -r tools/customize_toolbars_builder/requirements.txt
+# Customize Toolbars builder — Python 3.9+ (Harmony ships 3.9).
+#   run.bat  does this for you, or:
+#   py -3.9 -m venv .venv  &&  .venv\Scripts\python -m pip install -r requirements.txt
 
-# Runtime: the builder runs the real engine planner (engine/plan.js) to preview
-# registrations and name generated badge icons.
+# The builder runs the real engine to preview registrations and name badge icons.
 dukpy>=0.5
 
-# Config validation against engine/toolbar.schema.json.
+# Validates toolbar configs against the engine schema.
 jsonschema>=4
 
-# Desktop UI (Phase 3). Not needed for the CLI or the tests.
-PySide6>=6.5 ; python_version >= "3.9"
+# The desktop window.
+# Pinned <6.8: Qt for Python 6.8+ raised the minimum supported Python to 3.10,
+# which breaks on the 3.9 interpreter Harmony ships with.
+PySide6>=6.5,<6.8 ; python_version >= "3.9"
